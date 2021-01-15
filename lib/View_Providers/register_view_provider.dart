@@ -4,21 +4,52 @@ class RegisterViewProvider extends ChangeNotifier {
   String name;
   String email;
   String phone;
-  Map<String, dynamic> passField = {'value': '', 'obscureText': true};
-  Map<String, dynamic> repeatPassField = {'value': '', 'obscureText': true};
-  bool obscureText = true;
-  bool obscureText2 = true;
+  String pass;
+  String repeatPass;
+  bool obscurePass = true;
+  bool obscureRepeatPass = true;
   bool btnEnabled = false;
 
-  String nameError;
-  String emailError;
-  String phoneError;
-  String passwordError;
-  String repeatPasswordError;
+  set setName(String name) {
+    this.name = name;
+    notifyListeners();
+  }
 
-  void obscure(int obscureNr) {
-    if (obscureNr == 1) obscureText = !obscureText;
-    if (obscureNr == 2) obscureText2 = !obscureText2;
+  set setEmail(String email) {
+    this.email = email;
+    notifyListeners();
+  }
+
+  set setPhone(String phone) {
+    this.phone = phone;
+    notifyListeners();
+  }
+
+  set setPass(String pass) {
+    this.pass = pass;
+    notifyListeners();
+  }
+
+  set setRepeatPass(String repeatPass) {
+    this.repeatPass = repeatPass;
+    notifyListeners();
+  }
+
+  void setObscure(String field) {
+    if (field == 'pass') obscurePass = !obscurePass;
+    if (field == 'repeatPass') obscureRepeatPass = !obscureRepeatPass;
+    notifyListeners();
+  }
+
+  void setBtnStatus() {
+    if (name.length < 1 ||
+        !email.contains(RegExp(r'@[a-zA-Z]+\.[a-zA-Z]+')) ||
+        phone.length < 1 ||
+        pass.length < 6 ||
+        repeatPass != pass)
+      btnEnabled = false;
+    else
+      btnEnabled = true;
     notifyListeners();
   }
 
@@ -26,8 +57,8 @@ class RegisterViewProvider extends ChangeNotifier {
     if (name.length < 1 ||
         !email.contains(RegExp(r'@[a-zA-Z]+\.[a-zA-Z]+')) ||
         phone.length < 1 ||
-        password.length < 6 ||
-        repeatPassword != password)
+        pass.length < 6 ||
+        repeatPass != pass)
       btnEnabled = false;
     else
       btnEnabled = true;
