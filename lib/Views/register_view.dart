@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:leman_project/Common/common_widgets.dart';
+import 'package:leman_project/Entities/user_entity.dart';
+import 'package:leman_project/Services/auth_service.dart';
 import 'package:leman_project/View_Providers/register_view_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
+import 'package:flushbar/flushbar.dart';
 
 class RegisterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final registerViewProvider =
         Provider.of<RegisterViewProvider>(context, listen: false);
+    final authService = Provider.of<AuthService>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -34,19 +38,18 @@ class RegisterView extends StatelessWidget {
                     //Name field
                     Selector<RegisterViewProvider, String>(
                       selector: (context, registerProvider) =>
-                          registerProvider.name,
-                      builder: (context, name, child) {
+                          registerProvider.nameError,
+                      builder: (context, nameError, child) {
                         return TextFormField(
-                          keyboardType: TextInputType.text,
+                          keyboardType: TextInputType.name,
                           onChanged: (String value) {
                             registerViewProvider.setName = value;
-                            registerViewProvider.enabled();
+                            registerViewProvider.setNameError();
+                            registerViewProvider.setBtnStatus();
                           },
                           decoration: InputDecoration(
-                            errorText: name != null && name.length > 0
-                                ? null
-                                : "Câmp obligatoriu",
-                            labelText: "Nume întreg",
+                            errorText: nameError,
+                            labelText: "Nume Prenume",
                             prefixIcon: Icon(Icons.person_outline),
                           ),
                         );
@@ -55,20 +58,17 @@ class RegisterView extends StatelessWidget {
                     //Email field
                     Selector<RegisterViewProvider, String>(
                       selector: (context, registerProvider) =>
-                          registerProvider.email,
-                      builder: (context, email, child) {
+                          registerProvider.emailError,
+                      builder: (context, emailError, child) {
                         return TextFormField(
-                          keyboardType: TextInputType.text,
+                          keyboardType: TextInputType.emailAddress,
                           onChanged: (String value) {
                             registerViewProvider.setEmail = value;
-                            registerViewProvider.enabled();
+                            registerViewProvider.setEmailError();
+                            registerViewProvider.setBtnStatus();
                           },
                           decoration: InputDecoration(
-                            errorText: email == null ||
-                                    !email.contains(
-                                        RegExp(r'@[a-zA-Z]+\.[a-zA-Z]+'))
-                                ? "Introduceți o adresă de e-mail validă"
-                                : null,
+                            errorText: emailError,
                             labelText: "E-mail",
                             prefixIcon: Icon(Icons.email_outlined),
                           ),
@@ -76,40 +76,47 @@ class RegisterView extends StatelessWidget {
                       },
                     ),
                     //Phone field
-                    TextFormField(
-                      keyboardType: TextInputType.phone,
-                      onChanged: (String value) {
-                        registerViewProvider.phone = value;
-                        registerViewProvider.enabled();
-                      },
-                      decoration: InputDecoration(
-                        labelText: "Telefon(opțional)",
-                        prefixIcon: Icon(Icons.phone_outlined),
-                        suffixIcon: Tooltip(
-                          preferBelow: false,
-                          message: "Va putea fi folosit la autentificare",
-                          child: Icon(Icons.info_outline),
-                          waitDuration: Duration(milliseconds: 0),
-                        ),
-                      ),
-                    ),
+                    Selector<RegisterViewProvider, String>(
+                        selector: (context, registerProvider) =>
+                            registerProvider.phoneError,
+                        builder: (context, phoneError, child) {
+                          return TextFormField(
+                            keyboardType: TextInputType.phone,
+                            onChanged: (String value) {
+                              registerViewProvider.phone = value;
+                              registerViewProvider.setPhoneError();
+                              registerViewProvider.setBtnStatus();
+                            },
+                            decoration: InputDecoration(
+                              errorText: phoneError,
+                              labelText: "Telefon(opțional)",
+                              prefixIcon: Icon(Icons.phone_outlined),
+                              suffixIcon: Tooltip(
+                                preferBelow: false,
+                                message: "Va putea fi folosit la autentificare",
+                                child: Icon(Icons.info_outline),
+                                waitDuration: Duration(milliseconds: 0),
+                              ),
+                            ),
+                          );
+                        }),
                     //Password field
                     Selector<RegisterViewProvider, Tuple2<String, bool>>(
                       selector: (context, registerProvider) => Tuple2(
-                          registerProvider.pass, registerProvider.obscurePass),
+                          registerProvider.passError,
+                          registerProvider.obscurePass),
                       builder: (context, data, child) {
                         return TextFormField(
                           keyboardType: TextInputType.text,
                           obscureText: data.item2,
                           onChanged: (String value) {
                             registerViewProvider.setPass = value;
-                            registerViewProvider.enabled();
+                            registerViewProvider.setPassError();
+                            registerViewProvider.setBtnStatus();
                           },
                           decoration: InputDecoration(
-                            errorText: data.item1 == null ||
-                                    data.item1.length < 6
-                                ? "Parola trebuie să conțină minim 6 caractere"
-                                : null,
+                            errorText: data.item1,
+                            errorMaxLines: 3,
                             labelText: "Parola",
                             prefixIcon: Icon(Icons.lock_outline),
                             suffixIcon: InkWell(
@@ -126,24 +133,21 @@ class RegisterView extends StatelessWidget {
                       },
                     ),
                     //Repeat password
-                    Selector<RegisterViewProvider,
-                        Tuple3<String, bool, String>>(
-                      selector: (context, registerProvider) => Tuple3(
-                          registerProvider.repeatPass,
-                          registerProvider.obscureRepeatPass,
-                          registerProvider.pass),
+                    Selector<RegisterViewProvider, Tuple2<String, bool>>(
+                      selector: (context, registerProvider) => Tuple2(
+                          registerProvider.repeatPassError,
+                          registerProvider.obscureRepeatPass),
                       builder: (context, data, child) {
                         return TextFormField(
                           keyboardType: TextInputType.text,
                           obscureText: data.item2,
                           onChanged: (String value) {
                             registerViewProvider.setRepeatPass = value;
-                            registerViewProvider.enabled();
+                            registerViewProvider.setRepeatPassError();
+                            registerViewProvider.setBtnStatus();
                           },
                           decoration: InputDecoration(
-                            errorText: data.item1 != data.item3
-                                ? "Parolele nu se potrivesc"
-                                : null,
+                            errorText: data.item1,
                             labelText: "Repetare parolă",
                             prefixIcon: Icon(Icons.lock_outline),
                             suffixIcon: InkWell(
@@ -170,8 +174,24 @@ class RegisterView extends StatelessWidget {
                 builder: (context, bool, child) {
                   return RaisedButton(
                     color: Colors.cyan[700],
-                    onPressed:
-                        registerViewProvider.btnEnabled == false ? null : () {},
+                    onPressed: registerViewProvider.btnEnabled == false
+                        ? null
+                        : () async {
+                            final user = new UserEntity(
+                                email: registerViewProvider.email,
+                                name: registerViewProvider.name,
+                                password: registerViewProvider.pass,
+                                phone: registerViewProvider.phone);
+                            await authService.register(user).then((result) {
+                              if (result.contains('email'))
+                                return Flushbar(
+                                  message:
+                                      "Există un cont creat cu această adresă de e-mail",
+                                  backgroundColor: Colors.red,
+                                  duration: Duration(seconds: 3),
+                                )..show(context);
+                            });
+                          },
                     child: Text(
                       "Înregistrare",
                       style: TextStyle(color: Colors.white),

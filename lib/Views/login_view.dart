@@ -26,7 +26,7 @@ class LoginView extends StatelessWidget {
                         keyboardType: TextInputType.text,
                         onChanged: (String value) {
                           loginViewProvider.emailPhone = value;
-                          loginViewProvider.enabled();
+                          loginViewProvider.setBtnStatus();
                         },
                         decoration: InputDecoration(
                             labelText: "Email/Telefon",
@@ -46,7 +46,7 @@ class LoginView extends StatelessWidget {
                             obscureText: obscure,
                             onChanged: (String value) {
                               loginViewProvider.password = value;
-                              loginViewProvider.enabled();
+                              loginViewProvider.setBtnStatus();
                             },
                             decoration: InputDecoration(
                               labelText: "Parola",
@@ -75,11 +75,10 @@ class LoginView extends StatelessWidget {
                   0),
               Selector<LoginViewProvider, bool>(
                 selector: (context, loginProvider) => loginProvider.btnEnabled,
-                builder: (context, bool, child) {
+                builder: (context, btnStatus, child) {
                   return RaisedButton(
-                    color: Colors.blue,
-                    onPressed:
-                        loginViewProvider.btnEnabled == false ? null : () {},
+                    color: Colors.cyan[700],
+                    onPressed: btnStatus == false ? null : () {},
                     child: Text(
                       "Autentificare",
                       style: TextStyle(color: Colors.white),

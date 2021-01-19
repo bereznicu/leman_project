@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:regexpattern/regexpattern.dart';
 
 class LoginViewProvider extends ChangeNotifier {
   String emailPhone;
@@ -11,8 +12,11 @@ class LoginViewProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void enabled() {
-    if (emailPhone.length > 4 && password.length > 5)
+  void setBtnStatus() {
+    if (emailPhone != null &&
+        emailPhone != '' &&
+        password != null &&
+        password != '')
       btnEnabled = true;
     else
       btnEnabled = false;

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "42748062431",
+    "project_id": "leman-e9861",
+    "storage_bucket": "leman-e9861.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:42748062431:android:4e52ac7525464e3049d76a",
+        "android_client_info": {
+          "package_name": "com.example.leman_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "42748062431-mg29k48uh3i6fn2huapcm5pm0nj2kabk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.leman_project",
+            "certificate_hash": "fcadab4336ccce8fa7fdbdde8650f5d9b28059f9"
+          }
+        },
+        {
+          "client_id": "42748062431-77t3h20t9p2dnaej2pdnug12qfg7s88s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxjtmLhuNlfRManvTnugDUw0AcIZJIwFE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "42748062431-77t3h20t9p2dnaej2pdnug12qfg7s88s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
