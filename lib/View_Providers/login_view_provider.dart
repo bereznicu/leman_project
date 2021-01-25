@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:regexpattern/regexpattern.dart';
 
 class LoginViewProvider extends ChangeNotifier {
   String emailPhone;

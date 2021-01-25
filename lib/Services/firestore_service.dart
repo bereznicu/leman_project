@@ -5,10 +5,10 @@ class FireStoreService {
   CollectionReference users =
       FirebaseFirestore.instance.collection('Utilizatori');
   Future<String> storeUser(UserEntity userEntity) async {
-    return await users
+    return users
         .doc(userEntity.id)
         .set(userEntity.toMap())
-        .then((value) => null)
+        .then((value) => 'success')
         .catchError((error) => error.toString());
   }
 }

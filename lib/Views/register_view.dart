@@ -182,7 +182,7 @@ class RegisterView extends StatelessWidget {
                                 name: registerViewProvider.name,
                                 password: registerViewProvider.pass,
                                 phone: registerViewProvider.phone);
-                            await authService.register(user).then((result) {
+                            authService.register(user).then((result) {
                               if (result.contains('email'))
                                 return Flushbar(
                                   message:
@@ -200,6 +200,7 @@ class RegisterView extends StatelessWidget {
                 },
               ),
               spacer(height(context) * 0.01, 0),
+              //Go to login
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -210,7 +211,7 @@ class RegisterView extends StatelessWidget {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     onTap: () {
-                      //TODO: Navigare la login view.
+                      Navigator.pop(context);
                     },
                   )
                 ],
