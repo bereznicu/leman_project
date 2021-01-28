@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
+  Provider.debugCheckInvalidValueType = null;
+
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp().then((value) => runApp(MyApp()));
 }

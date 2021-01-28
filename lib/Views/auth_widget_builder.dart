@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:leman_project/Services/auth_service.dart';
+import 'package:leman_project/Services/employees_service.dart';
 import 'package:leman_project/Services/firestore_service.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +25,9 @@ class AuthWidgetBuilder extends StatelessWidget {
               Provider<User>.value(value: user),
               Provider<FireStoreService>(
                 create: (_) => FireStoreService(),
+              ),
+              Provider<EmployeesService>(
+                create: (_) => EmployeesService(),
               ),
             ],
             child: builder(context, snapshot),

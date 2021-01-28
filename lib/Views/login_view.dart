@@ -34,7 +34,7 @@ class LoginView extends StatelessWidget {
                           loginViewProvider.setBtnStatus();
                         },
                         decoration: InputDecoration(
-                            labelText: "Email/Telefon",
+                            labelText: "E-mail",
                             prefixIcon: Icon(Icons.person_outline)),
                       ),
                       spacer(
@@ -94,6 +94,12 @@ class LoginView extends StatelessWidget {
                                 return Flushbar(
                                   message: "Credențiale incorecte",
                                   backgroundColor: Colors.red,
+                                  duration: Duration(seconds: 3),
+                                )..show(context);
+                              if (value == 'offline')
+                                return Flushbar(
+                                  message: "Conexiune la internet nedetectată",
+                                  backgroundColor: Colors.orange[400],
                                   duration: Duration(seconds: 3),
                                 )..show(context);
                             });

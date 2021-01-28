@@ -76,30 +76,30 @@ class RegisterView extends StatelessWidget {
                       },
                     ),
                     //Phone field
-                    Selector<RegisterViewProvider, String>(
-                        selector: (context, registerProvider) =>
-                            registerProvider.phoneError,
-                        builder: (context, phoneError, child) {
-                          return TextFormField(
-                            keyboardType: TextInputType.phone,
-                            onChanged: (String value) {
-                              registerViewProvider.phone = value;
-                              registerViewProvider.setPhoneError();
-                              registerViewProvider.setBtnStatus();
-                            },
-                            decoration: InputDecoration(
-                              errorText: phoneError,
-                              labelText: "Telefon(opțional)",
-                              prefixIcon: Icon(Icons.phone_outlined),
-                              suffixIcon: Tooltip(
-                                preferBelow: false,
-                                message: "Va putea fi folosit la autentificare",
-                                child: Icon(Icons.info_outline),
-                                waitDuration: Duration(milliseconds: 0),
-                              ),
-                            ),
-                          );
-                        }),
+                    // Selector<RegisterViewProvider, String>(
+                    //     selector: (context, registerProvider) =>
+                    //         registerProvider.phoneError,
+                    //     builder: (context, phoneError, child) {
+                    //       return TextFormField(
+                    //         keyboardType: TextInputType.phone,
+                    //         onChanged: (String value) {
+                    //           registerViewProvider.phone = value;
+                    //           registerViewProvider.setPhoneError();
+                    //           registerViewProvider.setBtnStatus();
+                    //         },
+                    //         decoration: InputDecoration(
+                    //           errorText: phoneError,
+                    //           labelText: "Telefon(opțional)",
+                    //           prefixIcon: Icon(Icons.phone_outlined),
+                    //           suffixIcon: Tooltip(
+                    //             preferBelow: false,
+                    //             message: "Va putea fi folosit la autentificare",
+                    //             child: Icon(Icons.info_outline),
+                    //             waitDuration: Duration(milliseconds: 0),
+                    //           ),
+                    //         ),
+                    //       );
+                    //     }),
                     //Password field
                     Selector<RegisterViewProvider, Tuple2<String, bool>>(
                       selector: (context, registerProvider) => Tuple2(
@@ -188,6 +188,12 @@ class RegisterView extends StatelessWidget {
                                   message:
                                       "Există un cont creat cu această adresă de e-mail",
                                   backgroundColor: Colors.red,
+                                  duration: Duration(seconds: 3),
+                                )..show(context);
+                              if (result == 'offline')
+                                return Flushbar(
+                                  message: "Conexiune la internet nedetectată",
+                                  backgroundColor: Colors.orange[400],
                                   duration: Duration(seconds: 3),
                                 )..show(context);
                             });
