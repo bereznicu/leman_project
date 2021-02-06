@@ -180,8 +180,7 @@ class RegisterView extends StatelessWidget {
                             final user = new UserEntity(
                                 email: registerViewProvider.email,
                                 name: registerViewProvider.name,
-                                password: registerViewProvider.pass,
-                                phone: registerViewProvider.phone);
+                                password: registerViewProvider.pass);
                             authService.register(user).then((result) {
                               if (result.contains('email'))
                                 return Flushbar(

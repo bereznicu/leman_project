@@ -50,4 +50,13 @@ class AuthService {
     else
       return 'offline';
   }
+
+  Future<UserEntity> getCurrentUser() async {
+    return _fireStore.users
+        .doc(_firebaseAuth.currentUser.uid)
+        .get()
+        .then((snapshot) {
+      return UserEntity().fromMap(snapshot.data());
+    });
+  }
 }

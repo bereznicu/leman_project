@@ -2,7 +2,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:leman_project/Services/employees_service.dart';
 import 'package:leman_project/View_Providers/add_employee_dialog_provider.dart';
-import 'package:leman_project/Views/dismiss_employee_adder_dialog.dart';
+import 'package:leman_project/Views/Home_view/dismiss_employee_adder_dialog.dart';
 import 'package:provider/provider.dart';
 
 class AddEmployeeDialog extends StatelessWidget {
